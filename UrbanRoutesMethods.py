@@ -1,22 +1,26 @@
-import time
 from selenium.common import ElementClickInterceptedException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import Keys
+
 
 import data
-from Locators import Locators
+import helpers
 
+
+from UrbanRoutesLocators import UrbanRoutesLocators
+import time
 
 class UrbanRoutesPage:
 
     def __init__(self, driver):
         self.modal_opcional = None
         self.driver = driver
-        self.locators = Locators
+        self.locators = UrbanRoutesLocators
 
 
-    # Configurar la dirección (Desde - Hasta)
+    # Configurar la dirección
     def set_from(self, from_address):
         WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located(self.locators.from_field)
@@ -38,7 +42,7 @@ class UrbanRoutesPage:
             ).click()
 
 
-    # Seleccionar la tarifa "Comfort"
+    # Elegir la tarifa "Comfort"
     def click_comfort_tariff_button(self):
         comfort_button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.locators.tariff_comfort_icon)
@@ -51,7 +55,7 @@ class UrbanRoutesPage:
         )
 
 
-    # Rellenar el número de teléfono
+    # Rellenar campo número de teléfono
     def fill_phone_number(self, phone=data.PHONE_NUMBER):
         phone_field = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located(self.locators.phone_input)
@@ -87,7 +91,7 @@ class UrbanRoutesPage:
         phone_method_button.click()
 
 
-    # Agregar una tarjeta de crédito
+    # Agregar numero de  tarjeta de crédito
     def scroll_to_element(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
         time.sleep(0.5)
@@ -161,7 +165,7 @@ class UrbanRoutesPage:
         return True
 
 
-    # Escribir un mensaje al conductor
+    # Escribir  mensaje al conductor
     def write_new_message(self, message=data.MESSAGE_FOR_DRIVER):
         message_field = self.driver.find_element(*self.locators.message_to_driver)
         message_field.clear()
@@ -208,13 +212,3 @@ class UrbanRoutesPage:
         self.driver.find_element(*self.locators.end_taxi_button).click()
 
 
-    # Esperar Modal información del conductor
-    def click_driver_details(self):
-        WebDriverWait(self.driver, 60).until(
-            EC.invisibility_of_element_located((By.CLASS_NAME, "overlay"))
-        )
-
-        driver_details_button = WebDriverWait(self.driver, 80).until(
-            EC.element_to_be_clickable(self.locators.driver_details_button)
-        )
-        driver_details_button.click()

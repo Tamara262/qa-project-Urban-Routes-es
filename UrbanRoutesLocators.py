@@ -40,5 +40,3 @@ class UrbanRoutesLocators:
     counter_ice_cream = (By.XPATH, "//div[@class='r-counter-label' and text()='Helado']")
     add_ice_cream_Button = (By.CLASS_NAME, "counter-plus")
 
-    # Modal opcional
-    driver_details_button = (By.XPATH, "//button[@class='order-button']//img[@alt='burger']")
